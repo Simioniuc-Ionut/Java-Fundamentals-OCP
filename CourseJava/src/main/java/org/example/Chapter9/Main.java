@@ -3,6 +3,7 @@ package org.example.Chapter9;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -70,5 +71,62 @@ public class Main {
     }
     private static void check(){
          System.out.println("Hi from static");
+    }
+}
+class A1 {
+    int value = 0;
+    static String name = "A1";
+}
+class A2 extends A1 {
+    int value = 1;
+    static String name = "A2";
+}
+class A3 extends A2{
+    int value = 2;
+    static String name = "A3";
+    A3() {}
+    A3(int fieldAfter) {
+        this.fieldAfter = fieldAfter;
+    }
+    public static void main(String[] args){
+        A3 v = new A3();
+        System.out.println("Value A3 " + v.value);
+        System.out.println("Value A2 " + ((A2)v).value );
+        System.out.println("Value A1 " + ((A1)v).value );
+
+        System.out.println("Name A3 " + v.name );
+//        System.out.println("Name A2 " + super.value );
+//        System.out.println("Name A1 " +  );
+
+        A3 v1 = new A3(1);
+        v1.fieldAfter();
+
+
+    }
+    public void nonStatic(){
+        System.out.println(super.value);
+    }
+    public void fieldAfter(){
+        System.out.println(fieldAfter);
+    }
+
+    int fieldAfter;
+}
+
+abstract class Bozo {
+    public int value = 0;
+    public abstract void print();
+}
+class TypeBozo extends  Bozo{
+    public int value = 1;
+
+    public void print(){
+        System.out.println("Jump " + value);
+    }
+    static void main() {
+        Bozo b = new TypeBozo();
+        System.out.println(b.value);
+
+        Optional<String> o = Optional.empty();
     }
 }
