@@ -7,6 +7,7 @@ import org.example.sq.part1.SmartHomeController.services.lightning.LightControlS
 import org.springframework.aop.aspectj.annotation.PrototypeAspectInstanceFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.*;
+import org.springframework.web.context.annotation.SessionScope;
 
 @Configuration
 @ComponentScan(basePackages = "org.example.sq.part1.SmartHomeController")
@@ -29,5 +30,6 @@ public class ProjectConfiguration {
     public LightControlServiceImpl lightControlServiceImpl(){
         return new LightControlServiceImpl(lightRepository());
     }
+
 
 }

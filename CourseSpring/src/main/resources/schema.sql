@@ -9,3 +9,10 @@ create table account (
                          name VARCHAR(50) NOT NULL,
                          amount DOUBLE NOT NULL
 );
+-- Project part --
+create table login(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL
+);
+INSERT INTO login VALUES(1, 'aaa', 'bbb');

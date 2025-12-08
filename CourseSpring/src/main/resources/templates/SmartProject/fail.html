@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fail page</title>
+</head>
+<body>
+<h1>You can't logg in</h1>
+<p th:text="${message}"></p>
+<form action="/home" method="get">
+    <button type="submit">Try again</button>
+
+</form>
+</body>
+
+</html>

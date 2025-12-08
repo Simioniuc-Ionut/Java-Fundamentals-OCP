@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+<h1>Welcome To Smart Home</h1>
+
+<h2>Login</h2>
+
+<p>Request ID: <span th:text="${requestId}"></span></p>
+<p>Started at: <span th:text="${startedAt}"></span></p>
+<p>Client IP: <span th:text="${clientIp}"></span></p>
+<p>User agent: <span th:text="${userAgent}"></span></p>
+
+<div th:if="${authenticated}">
+    <p>Logged in as <strong th:text="${username}"></strong></p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<div th:if="${!authenticated}">
+    Login here:
+    <form action="/login" method="post">
+        Username: <input type="text" name="username" /><br />
+        Password: <input type="password" name="password" /><br />
+        <button type="submit">Log in</button>
+    </form>
+</div>
+
+<p th:text="${message}"></p>
+
+</body>
+
+</html>
