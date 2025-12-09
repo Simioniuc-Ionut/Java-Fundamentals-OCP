@@ -1,12 +1,14 @@
 package org.example.sq.part1.SmartHomeController.services.login;
 
-import jakarta.servlet.http.HttpServletRequest;
+import org.example.sq.part1.SmartHomeController.callOtherService.RegisterProxy;
 import org.example.sq.part1.SmartHomeController.dto.LoginDTO;
+import org.example.sq.part1.SmartHomeExternalService.AccountDTO;
 import org.example.sq.part1.SmartHomeController.model.LoginModel;
 import org.example.sq.part1.SmartHomeController.repository.loginRepository.LoginRepository;
 import org.example.sq.part1.SmartHomeController.services.RequestContext;
 import org.example.sq.part1.SmartHomeController.services.SessionUser;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +19,13 @@ public class LoginService {
     private final LoginRepository loginRepository;
     private final SessionUser sessionUser;
     private final RequestContext requestContext;
+    private final RegisterProxy registerProxy;
 
-    public LoginService(LoginRepository loginRepository,SessionUser sessionUser, RequestContext requestContext) {
+    public LoginService(LoginRepository loginRepository, SessionUser sessionUser, RequestContext requestContext, RegisterProxy registerProxy) {
         this.loginRepository = loginRepository;
         this.sessionUser=sessionUser;
         this.requestContext=requestContext;
+        this.registerProxy = registerProxy;
     }
 
     public LoginDTO.Response login(LoginDTO.Request requestDTO) {
@@ -50,6 +54,16 @@ public class LoginService {
     public LoginDTO.Response logout() {
         sessionUser.clear();
         return new LoginDTO.Response("", "redirect:/home", "", false);
+    }
+
+    public LoginDTO.Response register(AccountDTO.Request request) {
+        ResponseEntity<String>  response = registerProxy.register(request);
+        if (response==null)
+            return new LoginDTO.Response("Something went wrong with calling the endpoint","SmartProject/fail", requestContext.getRequestId(),false);
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return new LoginDTO.Response(response.getBody(),"SmartProject/home", requestContext.getRequestId(), true);
+        }
+        return new LoginDTO.Response(response.getBody(),"SmartProject/fail", requestContext.getRequestId(), false);
     }
 
 }

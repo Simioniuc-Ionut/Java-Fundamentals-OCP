@@ -12,7 +12,7 @@ create table account (
 -- Project part --
 create table login(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL UNIQUE ,
     password VARCHAR(50) NOT NULL
 );
 INSERT INTO login VALUES(1, 'aaa', 'bbb');

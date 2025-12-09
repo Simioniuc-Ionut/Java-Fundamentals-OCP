@@ -2,6 +2,7 @@ package org.example.sq.part1.SmartHomeController.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.sq.part1.SmartHomeController.dto.LoginDTO;
+import org.example.sq.part1.SmartHomeExternalService.AccountDTO;
 import org.example.sq.part1.SmartHomeController.services.RequestContext;
 import org.example.sq.part1.SmartHomeController.services.SessionUser;
 import org.example.sq.part1.SmartHomeController.services.login.LoginService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -60,6 +62,20 @@ public class LoginController {
     @PostMapping("/logout")
     public String logout() {
         LoginDTO.Response response = service.logout();
+        return response.page();
+    }
+
+    @PostMapping("/register")
+    public String register(
+            @RequestParam String username,
+            @RequestParam String password,
+            Model page,
+            HttpServletRequest req
+            ) {
+        requestContext.setClientIp(req.getRemoteAddr());
+        requestContext.setUserAgent(req.getHeader("User-Agent"));
+
+        LoginDTO.Response response = service.register(new AccountDTO.Request(username,password));
         return response.page();
     }
 }
