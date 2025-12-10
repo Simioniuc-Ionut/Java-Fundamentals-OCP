@@ -15,4 +15,4 @@ create table login(
     name VARCHAR(50) NOT NULL UNIQUE ,
     password VARCHAR(50) NOT NULL
 );
-INSERT INTO login VALUES(1, 'aaa', 'bbb');
+INSERT INTO login(name, password) VALUES( 'aaa', 'bbb');

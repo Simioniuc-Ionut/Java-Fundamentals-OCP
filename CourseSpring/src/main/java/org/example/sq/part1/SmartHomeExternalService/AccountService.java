@@ -26,18 +26,22 @@ public class AccountService {
         }
 
         AccountEntity entity = new AccountEntity();
-//        int id = (int) (Math.random() * 1000);
-//        entity.setId(id);
+//      int id = (int) (Math.random() * 1000);
+//      entity.setId(id);
         entity.setName(request.username());
         entity.setPassword(request.password());
+
         AccountEntity account;
         try {
             account =  accountRepository.save(entity);
         } catch (Exception ex) {
             Throwable root = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(ex);
             System.out.println("Failed to save account. Root cause: {}" +  root.getMessage() +  ex);
-            throw ex;
+            throw new RuntimeException("Failed to save account");
         }
+
+        if (account==null)
+            throw new RuntimeException("Something unexpected happens when saving account.");
 
         boolean isRegistered = !account.getName().isBlank() && !account.getPassword().isBlank();
         return new AccountDTO.Response(account.getName(),isRegistered);

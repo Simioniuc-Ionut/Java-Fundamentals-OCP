@@ -12,6 +12,15 @@ public class AccountEntity {
     private String name;
     private String password;
 
+    public AccountEntity() {
+    }
+
+    public AccountEntity(int id, String name, String password) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
